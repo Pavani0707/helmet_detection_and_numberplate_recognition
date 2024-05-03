@@ -1,0 +1,92 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  
+<head> 
+    <meta charset="UTF-8"> 
+    
+    <meta name="viewport" 
+          content="width=device-width, initial-scale=1.0"> 
+    <style>body {
+        font-family: Georgia, sans-serif;
+        margin: 50px;
+        background-color: #93CBDF;
+    }
+    h1 {
+        color: #0B042E;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+        max-width: 500px;
+        margin: 30px auto;
+        background-color: #7D7C83;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding: 3px;
+    }
+    input[type="text"] {
+        flex: 1;
+        font-size: large;
+        padding: 8px;
+        height: 50px;
+        border: none;
+        border-radius: 5px 0 0 5px;
+    }
+    button {
+        padding: 8px 15px;
+        background-color: #228211 ;
+        height: 68px;
+        width: 100px;
+        color: #fff;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #658E5E ;
+    }</style>
+
+    
+
+    <title>Checking challans</title> 
+</head> 
+  
+<body> 
+    <h1 align="center">Checking Challans due to Helmet violation</h1> 
+    <br><br> 
+    <form id="searchForm" method="GET">
+    <div class="search-container"> 
+        <input type="text" id="enter" placeholder="Enter your Number plate details"> 
+        
+        <button type="submit">Search</button>
+    </div>
+    <br>
+    <div id="searchResults" align="center"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const inputData = document.getElementById('enter').value;
+
+            // Send the data to the server using fetch
+            fetch('/submitData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ inputData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                var element = document.getElementById('searchResults');
+                var htmlString = '<h2>No of Challans on ' + (data['numberplate']) + ' : '+ data['num'] + '</h2>';
+
+                // Update the innerHTML of the div with the HTML string
+                element.innerHTML = htmlString;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script> 
+    </form>
+</body> 
+  
+</html> 
